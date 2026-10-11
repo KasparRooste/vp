@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+	<meta charset="utf-8">
+	<title>Kaspar Rooste, veebiprogrammeerimine</title>
+</head>
+<body>
+    <img src="pic/veebiprogrammeerimine_2026_TA.png" alt="">
+    <h1>Ametid</h1>
+    <p>Ametid</p>
+    <ul>
+      <li><a href="/eestifilm">Eesti filmid</a></li>
+      </ul>
+    <ol>
+        <% professionList.forEach (function(profession){%>
+        <li>Amet: <%=profession.title%> <br> description: <%=profession.description %>,<br>
+         <% }); %>
+    </ol>
+</body>
+</html>

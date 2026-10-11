@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+	<meta charset="utf-8">
+	<title>Kaspar Rooste, veebiprogrammeerimine</title>
+</head>
+<body>
+    <img src="pic/veebiprogrammeerimine_2026_TA.png" alt="">
+    <h1>Eesti filmid</h1>
+    <p>Eesti filmid</p>
+    <ul>
+      <li><a href="/eestifilm">Eesti filmi</a></li>
+      </ul>
+    <ol>
+        <% movieList.forEach (function(movie){%>
+        <li>Filmi nimi: <%=movie.title%> <br> Filmi aasta: <%=movie.release_year %>,<br> Kestvus minutites: <%=movie.duration_minutes %> <br> Kirjeldus: <%=movie.description %></li>
+        <% }); %>
+    </ol>
+</body>
+</html>

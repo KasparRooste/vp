@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+	<meta charset="utf-8">
+	<title>Kaspar Rooste, veebiprogrammeerimine</title>
+</head>
+<body>
+    <img src="pic/veebiprogrammeerimine_2026_TA.png" alt="">
+    <h1>Eesti filmi inimesed</h1>
+    <p>Eesti filmi inimesed</p>
+
+<p><%= notice || '' %></p>
+
+    <form method="POST">
+        <label for="firstNameInput">Sisesta eesnimi </label>
+       <label for="firstNameInput">Eesnimi</label>
+       <input
+           id="firstNameInput"
+           name="firstNameInput"
+           type="text"
+           placeholder="Eesnimi..."
+           value="<%= firstNameInput || '' %>"
+           required
+       >
+
+        <br>
+        <label for="lastNameInput"> Sisesta perekonnanimi</label>
+         
+         <label for="lastNameInput">Perekonnanimi</label>
+         <input
+             id="lastNameInput"
+             name="lastNameInput"
+             type="text"
+             placeholder="Perekonnanimi..."
+             value="<%= lastNameInput || '' %>"
+             required
+         >
+         <br>
+         <label for="bornInput">Filmiinimese sünnikuupäev</label>
+         <label for="bornInput">Filmiinimese sünnikuupäev</label>
+         <input
+             id="bornInput"
+             name="bornInput"
+             type="date"
+             value="<%= bornInput || '' %>"
+             required
+         >
+          <br>
+         <label for="deceasedInput">Filmiinimese surmakuupäev</label>
+         <label for="deceasedInput">Filmiinimese surmakuupäev</label>
+         <input
+             id="deceasedInput"
+             name="deceasedInput"
+             type="date"
+             value="<%= deceasedInput || '' %>"
+         >
+         <br>
+         <input id="personSubmit" name = "personSubmit" type="submit" value = "Salvesta">
+        </form>
+
+    <ul>
+      <li><a href="/eestifilm">Eesti filmi</a></li>
+    </ul>
+</body>
+</html>

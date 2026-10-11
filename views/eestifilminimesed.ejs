@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+	<meta charset="utf-8">
+	<title>Kaspar Rooste, veebiprogrammeerimine</title>
+</head>
+<body>
+    <img src="pic/veebiprogrammeerimine_2026_TA.png" alt="">
+    <h1>Eesti filmi inimesed</h1>
+    <p>eesti filmi inimesed</p>
+    <ul>
+      <li><a href="/eestifilm">Eesti filmi</a></li>
+      </ul>
+    <ol>
+        <% personList.forEach (function(person){%>
+        <li><%=person.first_name %>  <%=person.last_name %>, sündinud <%=person.born %></li>
+        <% }); %>
+    </ol>
+</body>
+</html>
