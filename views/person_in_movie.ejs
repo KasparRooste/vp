@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+	<meta charset="utf-8">
+	<title>Kaspar Rooste, veebiprogrammeerimine</title>
+</head>
+<body>
+    <img src="pic/veebiprogrammeerimine_2026_TA.png" alt="">
+    <h1>Seose loomine</h1>
+
+
+<p><%= notice || '' %></p>
+
+    <form method="POST">
+
+<label for="person">Vali inimene:</label>
+
+<select name="personId" id="person" required>
+    <option value="">-- Vali inimene --</option>
+
+    <% personList.forEach(person => { %>
+        <option value="<%= person.id %>">
+            <%= person.first_name %> <%= person.last_name %>
+        </option>
+    <% }) %>
+</select>
+
+
+<br>
+
+
+<label for="movie">Vali film:</label>
+
+<select name="movieId" id="movie" required>
+    <option value="">-- Vali film --</option>
+
+    <% movieList.forEach(movie => { %>
+        <option value="<%= movie.id %>">
+            <%= movie.title %>
+        </option>
+    <% }) %>
+</select>
+
+
+</body>
+</html>
