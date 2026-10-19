@@ -343,7 +343,7 @@ const genreAdd = (req, res)=>{
 
 const genreAddPost = async (req, res)=>{
     if(!req.body.genreNameInput){
-        return res.render('eestifilmzanrid_add', {notice: 'Å¾anri nimi puudub', genreName: req.body.genreNameInput, description: req.body.descriptionInput});
+        return res.render('genreAdd', {notice: 'Å¾anri nimi puudub', genreName: req.body.genreNameInput, description: req.body.descriptionInput});
     }
     let conn;
     try {
@@ -410,12 +410,19 @@ const personInMovie = async (req, res) => {
 
         const [movieList] = await conn.execute(movieSql);
 
+
+        //get profession
+        const professionSql = 'SELECT id, title FROM profession ORDER BY id';
+        const [professionList] = await conn.execute(professionSql);
+
         // 4. Render the page once with both lists
         res.render('person_in_movie', {
             personList: personList,
             movieList: movieList,
+            professionList: professionList,
             notice: 'Vali inimene ja film.'
         });
+
 
     } catch (err) {
         console.error('Viga andmebaasiga suhtlemisel:', err);
@@ -427,7 +434,36 @@ const personInMovie = async (req, res) => {
         }
     }
 };
+const personInMoviePost = async (req, res) => {
+    const {movieInput} = req.body;
+    const {personInput} = req.body;
+    const {roleInput} = req.body;
+    const {professionInput} = req.body;
+    let conn;
 
+    try {
+        // 1. Connect to MySQL
+        conn = await mysql.createConnection({
+            host: process.env.DB_HOST,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASS,
+            database: process.env.DB_NAME
+        });
+        let sqlReq = 'INSERT INTO person_in_movie (character_name, person_id, movie_id, profession_id) VALUES (?,?,?,?)';
+        await conn.execute(sqlReq, [roleInput,personInput,movieInput,professionInput || null]);
+        res.redirect('/eestifilm/personInMovie');
+
+        }
+        catch (err) {
+            console.error('Viga andmebaasiga suhtlemisel:', err);
+            res.status(500).send('Andmebaasi päring ebaõnnestus.');
+        }
+    finally {
+        if (conn) {
+            await conn.end();
+        }
+    }
+};
 module.exports = {
     eestifilm,
     inimesed,
@@ -441,5 +477,6 @@ module.exports = {
     ametidAddPost,
     genreAdd,
     genreAddPost,
-    personInMovie
+    personInMovie,
+    personInMoviePost
 }

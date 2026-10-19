@@ -12,7 +12,8 @@ const{
     ametidAdd,
     ametidAddPost,
     genreAdd,
-    personInMovie
+    personInMovie,
+    personInMoviePost
 } = require('../controllers/eestifilmControllers');
 
 router.route('/').get(eestifilm);
@@ -40,5 +41,7 @@ router.route('/genreAdd').get(genreAdd);
 router.route('/genreAdd').post(genreAdd);
 
 router.route('/personInMovie').get(personInMovie);
+
+router.route('/personInMovie').post(personInMoviePost)
 
 module.exports = router;
