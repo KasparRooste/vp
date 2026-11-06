@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+	<meta charset="utf-8">
+	<title>Kaspar Rooste, veebiprogrammeerimine</title>
+</head>
+<body>
+    <img src="pic/veebiprogrammeerimine_2026_TA.png" alt="">
+    <h1>Fotode üles laadimine</h1>
+    <p>Siin lehel saab forosid lisada</p>
+
+
+
+<form method="POST" enctype="multipart/form-data">
+
+    <label for="photoInput">Vali soovitud pildifaili (.jpg)<label>
+    <input id="photoInput" name="photoInput" type="file">
+
+     <br>
+       <label for="altInput">Foto alternatiivtekst (alt)</label>
+      <input id="altInput" name="altInput" type="text" placeholder="Pildil on...">
+      <br>
+      <input id="privacyInput1" name="privacyInput" type="radio" value="1" checked>
+      <label for="privacyInput1"> Kõik näevad</label>
+      <br>
+       <input id="privacyInput2" name="privacyInput" type="radio" value="2" checked>
+            <label for="privacyInput2"> Sisse loginud kasutajatele</label>
+            <br>
+             <input id="privacyInput3" name="privacyInput" type="radio" value="3" checked>
+                  <label for="privacyInput3"> Privaatne (ainult ise näen)</label>
+                  <br>
+     <input id="photoSubmit" name = "photoSubmit" type="submit" value = "Lae üles">
+      </form>
+
+    <ul>
+      <li><a href="/">Avalehele</a></li>
+    </ul>
+    <br>
+    <h1>Viimane üleslaetud foto</h1>
+    <img src='/gallery/normal/<%= filename %>' alt= '<%= alttext %>'>
+    <p><%= alttext %></p>
+</body>
+</html>

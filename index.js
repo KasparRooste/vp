@@ -14,7 +14,7 @@ const mysql = require('mysql2/promise');
 app.set('view engine', 'ejs');
 //määran ühe päris kataloogi virtuaalses serveris kättesaadavaks
 app.use(express.static('public'));
-app.use(bodyparser.urlencoded({extended: false}));
+app.use(bodyparser.urlencoded({extended: true}));//kui vomides ainult text siis false
 
 
 
@@ -77,5 +77,8 @@ app.get('/lastvisit', async (req, res)=>{
 
 const eestifilmRouter = require('./routes/eestifilmRoutes');
 app.use('/eestifilm', eestifilmRouter)
+
+const galleryPhotoUploadRouter = require('./routes/galleryPhotoUploadRoutes');
+app.use('/galleryPhotoUpload', galleryPhotoUploadRouter );
 
 app.listen(5107);

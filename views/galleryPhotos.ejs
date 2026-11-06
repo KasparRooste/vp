@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+	<meta charset="utf-8">
+	<title>Kaspar Rooste, veebiprogrammeerimine</title>
+</head>
+<body>
+    <img src="pic/veebiprogrammeerimine_2026_TA.png" alt="">
+
+    <ul>
+      <li><a href="/">Avalehele</a></li>
+    </ul>
+    <br>
+    <h1>Minu foto galerii</h1>
+    <%
+    photos.forEach((photo) => { %>
+    <img src='/gallery/normal/<%= photo.filename %>' alt='<%= photo.alttext %>' >
+    <p><%= photo.alttext %></p>
+  <%  });
+    %>
+
+</body>
+</html>
