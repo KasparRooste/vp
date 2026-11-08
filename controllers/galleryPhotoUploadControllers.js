@@ -13,7 +13,7 @@ const galleryPhotoUploadPost = async (req, res) => {
         //gen oma faili nimi
         const fileName = 'vp_' + Date.now() + '.jpg';
         await fs.rename(req.file.path, req.file.destination + fileName);
-        await sharp(req.file.destination + fileName).resize(800, 600).jpeg({quality: 90}).toFile('./public/gallery/normal/' + fileName);
+        await sharp(req.file.destination + fileName).resize(800, 600).composite([ { input: process.env.UPLOAD_WATERMARK_PATH, gravity: 'southeast' } ]).jpeg({quality: 90}).toFile(process.env.UPLOAD_RESIZED_PATH + fileName);
         //teeme pisipildi
         await sharp(req.file.destination + fileName).resize(100, 100).jpeg({quality: 90}).toFile('./public/gallery/thumbs/' + fileName);
         const userid = 1;//AJUTINE
@@ -58,11 +58,12 @@ const galleryLastPhotoGet = async (req, res) => {
         });
         const [result] = await conn.execute(sqlReq, [3]);
         console.log(result);
-        res.render('galleryPhotoUpload',result[0])
+        const photo = result[0] || { filename: null, alttext: null };
+        res.render('galleryPhotoUpload', photo);
     }
     catch (err){
         console.log('Viga ' , err);
-        res.render('galleryPhotoUpload');
+        res.render('galleryPhotoUpload', { filename: null, alttext: null });
     }
 
     finally {
