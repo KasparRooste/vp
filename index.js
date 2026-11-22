@@ -1,12 +1,14 @@
 const express = require('express');
 
+const session = require('express-session');
+const checkLogin = require('./src/checkLogin');
 const dateET = require('./src/dateTimeET');
 const app = express();
 const fs = require('fs').promises;
 const textRef = 'public/txt/vanasonad.txt';
 const regTextRef = 'public/txt/regvisit.txt';
 const bodyparser = require ('body-parser');
-
+const MySQLStore = require('express-mysql-session')(session);
 require('dotenv').config();
 
 const mysql = require('mysql2/promise');
@@ -15,8 +17,26 @@ app.set('view engine', 'ejs');
 //määran ühe päris kataloogi virtuaalses serveris kättesaadavaks
 app.use(express.static('public'));
 app.use(bodyparser.urlencoded({extended: true}));//kui vomides ainult text siis false
-
-
+const sessionStore = new MySQLStore({
+	host: process.env.DB_HOST,
+	user: process.env.DB_USER,
+	password: process.env.DB_PASS,
+	database: process.env.DB_NAME
+});
+app.use(session({
+	secret: process.env.SES_SECRET ,
+	store: sessionStore,
+	saveUninitialized : false,
+	resave : false,
+	cookie: {
+		maxAge: 1000 * 60 * 60 * 1 //sessiooni küpsiste aegumisaeg
+	}
+}));
+/*app.use(session({
+	secret: process.env.SES_SECRET ,
+	saveUninitialized : false,
+	resave : false
+}));*/
 
 //marsruudid
 app.get('/', (req, res)=>{
@@ -75,8 +95,20 @@ app.get('/lastvisit', async (req, res)=>{
 
 //eesti filmi marsruudid
 
+app.get('/home', checkLogin.isLogin, (req, res)=>{
+	res.render('home');
+	});
+app.get('/logout', (req, res)=>{
+	res.redirect('/');
+});
 const eestifilmRouter = require('./routes/eestifilmRoutes');
 app.use('/eestifilm', eestifilmRouter)
+
+const signupRouter = require('./routes/signupRoutes');  
+app.use('/signup', signupRouter);
+
+const signinRouter = require('./routes/signinRoutes');   
+app.use('/signin', signinRouter);
 
 const galleryPhotoUploadRouter = require('./routes/galleryPhotoUploadRoutes');
 app.use('/galleryPhotoUpload', galleryPhotoUploadRouter );
