@@ -29,11 +29,16 @@
 
     <div id= "gallery" class ="gallery">
 
-       <% photos.forEach((photo) => { %>
-           <img src="/gallery/thumbs/<%= photo.filename %>" alt="<%= photo.alttext %>" class="thumbs" data-id="<%= photo.id %>" data-filename="<%= photo.filename %>">
-       <% }); %>
-
-    %>
+<% galleryData.forEach(photo => { %>
+    <div>
+        <img src="/gallery/thumbs/<%= photo.src %>"
+             alt="<%= photo.alt %>"
+             class="thumbs"
+             data-filename="<%= photo.src %>"
+             data-privacy="<%= photo.privacyText %>">
+        <p>Privaatsus: <%= photo.privacyText %></p>
+    </div>
+<% }) %>
     </div>
 
 </body>

@@ -107,29 +107,53 @@ const galleryLastPhotoGet = async (req, res) => {
 //@route GET /gallery
 //@access private
 
+const privacyLabels = {
+    1: 'Privaatne',
+    2: 'Sisseloginud kasutajatele',
+    3: 'Avalik'
+};
+
 const galleryPhotosView = async (req, res) => {
     let conn;
-    console.log('handler started');
     try {
-        const sqlReq = 'SELECT id, filename, alttext FROM galleryphotos WHERE privacy >= ? AND deleted IS NULL ORDER BY id DESC';
-        const privacy = 2;
+        const userId = req.session.userId;
+
+        // public photos for everyone, logged-in photos for any logged-in user,
+        // private photos only for their owner
+        const sqlReq = `
+            SELECT id, filename, alttext, privacy, userid
+            FROM galleryphotos
+            WHERE deleted IS NULL
+              AND (privacy = 3
+                   OR (privacy = 2 AND ? IS NOT NULL)
+                   OR (privacy = 1 AND userid = ?))
+            ORDER BY id DESC`;
+
         conn = await mysql.createConnection({
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
             password: process.env.DB_PASS,
             database: process.env.DB_NAME
         });
-        const [result] = await conn.execute(sqlReq, [privacy]);
-        console.log(result);
-        let galleryData = [];
-        for (let i = 0; i < result.length; i++) {
-            let altText = 'Galeriipilt';
-            if (result[i].alttext) {
-                altText = result[i].alttext;
-            }
-            galleryData.push({src: result[i].filename, alt: altText, id: result[i].id});
-        }
-        res.render('galleryPhotos', {photos: result, galleryData: galleryData, imagehref: process.env.GALLERY_THUMBNAIL});
+
+        // mysql2 throws on undefined, so use null when not logged in
+        const uid = userId ?? null;
+        const [result] = await conn.execute(sqlReq, [uid, uid]);
+
+        const galleryData = result.map(photo => ({
+            id: photo.id,
+            src: photo.filename,
+            alt: photo.alttext || 'Galeriipilt',
+            privacy: photo.privacy,
+            privacyText: privacyLabels[photo.privacy] || 'Teadmata',
+            isOwner: photo.userid === userId
+        }));
+
+        res.render('galleryPhotos', {
+            photos: result,
+            galleryData: galleryData,
+            imagehref: process.env.GALLERY_THUMBNAIL
+        });
     }
     catch (err) {
         console.log('Viga', err);

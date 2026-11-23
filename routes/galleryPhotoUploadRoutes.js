@@ -20,7 +20,7 @@ router.route('/').get(galleryLastPhotoGet);
 
 router.route('/').post(upload.single('photoInput'), galleryPhotoUploadPost);
 router.route('/').get(galleryPhotoUpload);
-router.route('/galleryPhotos').get(galleryPhotosView);
+
 
 
 module.exports = router;

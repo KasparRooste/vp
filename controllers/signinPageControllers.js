@@ -25,7 +25,7 @@ const signinPagePost = async (req, res) => {
             password: process.env.DB_PASS,
             database: process.env.DB_NAME
         });
-        let sqlReq = 'SELECT id, password FROM users WHERE email = ?';
+        let sqlReq = 'SELECT id, firstname, lastname, password FROM users WHERE email = ?';
         const [users] = await conn.execute(sqlReq, [email]);
         if (users.length === 0) {
             notice = 'Sisestatud kasutajatunnus ja/ või parool oli vale!'
@@ -36,6 +36,8 @@ const signinPagePost = async (req, res) => {
         if (match) {
             //console.log('oled sisseloginud kasutaja:' + users[0].id);
             //sessiooni käivitamine and shit
+            req.session.userFirstName = users[0].firstname;
+            req.session.userLastName = users[0].lastname;
             req.session.userId = users[0].id;
             return res.redirect('/home');
         } else {

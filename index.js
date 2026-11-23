@@ -96,11 +96,19 @@ app.get('/lastvisit', async (req, res)=>{
 //eesti filmi marsruudid
 
 app.get('/home', checkLogin.isLogin, (req, res)=>{
-	res.render('home');
+		const timeNow = dateET.timeFormattedET();
+		const loginUserFirstName = req.session.userFirstName;
+		const loginUserLastName = req.session.userLastName;
+		res.render('home', {loginUserFirstName, loginUserLastName, timeNow});
+		
 	});
 app.get('/logout', (req, res)=>{
 	res.redirect('/');
 });
+
+const { galleryPhotosView } = require('./controllers/galleryPhotoUploadControllers');
+app.get('/galleryPhotos', checkLogin.isLogin, galleryPhotosView);
+
 const eestifilmRouter = require('./routes/eestifilmRoutes');
 app.use('/eestifilm', eestifilmRouter)
 
