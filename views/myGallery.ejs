@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+	<meta charset="utf-8">
+	<title>Kaspar Rooste, veebiprogrammeerimine</title>
+	<link rel="stylesheet" href="/style/gallery.css">
+	<script src="/script/gallery.js" defer></script>
+</head>
+<body>
+    <img src="pic/veebiprogrammeerimine_2026_TA.png" alt="">
+
+    <ul>
+      <li><a href="/home">Avalehele</a></li>
+      <li><a href="/galleryPhotoUpload">Pildi üleslaadimine</a></li>
+    </ul>
+    <br>
+    <h1>Minu foto galerii</h1>
+    <hr>
+    <dialog id="modal" class="modalarea">
+        <span id="modalClose" class="modalclose">&times;</span>
+        <div class="modalhorizontal">
+            <div class="modalvertical">
+                <p id="modalCaption"></p>
+                <img id="modalImage" src="../pic/empty.png" alt="galeriipilt">
+            </div>
+        </div>
+    </dialog>
+
+    <p><%- galleryLinks %></p>
+    <div id= "gallery" class ="gallery">
+
+<% galleryData.forEach(photo => { %>
+    <div>
+        <img src="/gallery/thumbs/<%= photo.src %>"
+             alt="<%= photo.alt %>"
+             class="thumbs"
+             data-filename="<%= photo.src %>"
+             data-privacy="<%= photo.privacyText %>">
+        <p>Privaatsus: <%= photo.privacyText %></p>
+    </div>
+<% }) %>
+    </div>
+
+</body>
+</html>

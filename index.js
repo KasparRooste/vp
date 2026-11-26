@@ -106,8 +106,14 @@ app.get('/logout', (req, res)=>{
 	res.redirect('/');
 });
 
-const { galleryPhotosView } = require('./controllers/galleryPhotoUploadControllers');
-app.get('/galleryPhotos', checkLogin.isLogin, galleryPhotosView);
+const {myGalleryHome, myGalleryView} = require('./controllers/myGalleryControllers');
+app.get('/myGallery', checkLogin.isLogin, myGalleryHome);
+app.get('/myGallery/:page', checkLogin.isLogin, myGalleryView);
+
+
+const { galleryPhotosView, galleryHome } = require('./controllers/galleryPhotoUploadControllers');
+app.get('/galleryPhotos', checkLogin.isLogin, galleryHome);
+app.get('/galleryPhotos/:page', checkLogin.isLogin, galleryPhotosView);
 
 const eestifilmRouter = require('./routes/eestifilmRoutes');
 app.use('/eestifilm', eestifilmRouter)
